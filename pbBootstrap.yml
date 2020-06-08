@@ -1,0 +1,67 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars_files:
+    - "vars/params.yml"
+    - "vars/aviVersion.yml"
+
+  roles:
+    - role: "avinetworks.avisdk"
+
+  tasks:
+
+    - name: Register JSON variables for credentials and cluster
+      #command: python3 ~/ansible/python/generateJson.py ~/ansible/hosts "{{ avi.controller.password }}" "{{ avi.controller.version }}"
+      command: python3 python/generateJson.py hosts "{{ avi.password }}"
+      ignore_errors: no
+      register: outputJson
+      delegate_to: 127.0.0.1
+      run_once: true
+      tags:
+        - debug
+
+    - set_fact:
+        outputRaw: "{{ outputJson.stdout | from_json }}"
+        delegate_to: 127.0.0.1
+        run_once: true
+      tags:
+        - debug
+
+    - set_fact:
+        avi_credentials: >
+                          {'api_version': "{{ api_version }}",
+                           'controller': "{{ outputRaw | json_query('avi_credentials.controller') }}",
+                           'password': "{{ outputRaw | json_query('avi_credentials.password') }}",
+                           'username': "{{ outputRaw | json_query('avi_credentials.username') }}"}
+        delegate_to: 127.0.0.1
+        run_once: true
+      tags:
+        - debug
+
+    - name: Debug
+      debug:
+        msg: "{{ avi_credentials }}"
+      tags:
+        - debug
+
+    - name: Update user password
+      avi_useraccount:
+        controller: "{{ avi_credentials.controller }}"
+        username: "{{ avi_credentials.username }}"
+        password: "{{ avi_credentials.password }}"
+        old_password: 58NFaGDJm(PJH0G
+        api_version: "{{ avi_credentials.api_version }}"
+      ignore_errors: yes
+      tags:
+        - password
+
+    - name: Display Post Message Installation
+      debug:
+        msg:
+          - "The Avi Controller is available at https://{{ avi_credentials.controller }}"
+          - "Username: admin"
+          - "Password: {{ avi_credentials.password }}"
+      tags:
+        - debug

@@ -1,0 +1,27 @@
+avi:
+  password: Avi_2020
+
+avi_systemconfiguration:
+  global_tenant_config:
+    se_in_provider_context: true
+    tenant_access_to_provider_se: true
+    tenant_vrf: true
+  welcome_workflow_complete: true
+  ntp_configuration:
+    ntp_servers:
+      - server:
+          type: V4
+          addr: 192.168.10.3
+  dns_configuration:
+    search_domain: ''
+    server_list:
+      - type: V4
+        addr: 8.8.8.8
+      - type: V4
+        addr: 4.4.4.4
+  email_configuration:
+    from_email: test@avicontroller.net
+    smtp_type: SMTP_LOCAL_HOST
+
+credsJsonFile:
+  - ../aviLscCloud/vars/creds.json

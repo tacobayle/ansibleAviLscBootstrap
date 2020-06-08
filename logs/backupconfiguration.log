@@ -1,0 +1,15 @@
+{
+  "count": 1,
+  "results": [
+    {
+      "_last_modified": "1591180368526523",
+      "url": "https://192.168.36.137/api/backupconfiguration/backupconfiguration-599cf37b-5bec-4197-871e-4c824c28fdcf",
+      "tenant_ref": "https://192.168.36.137/api/tenant/admin",
+      "uuid": "backupconfiguration-599cf37b-5bec-4197-871e-4c824c28fdcf",
+      "backup_passphrase": "<sensitive>",
+      "save_local": true,
+      "maximum_backups_stored": 4,
+      "name": "Backup-Configuration"
+    }
+  ]
+}

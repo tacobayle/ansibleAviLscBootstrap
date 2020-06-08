@@ -1,0 +1,93 @@
+{
+  "url": "https://192.168.36.137/api/systemconfiguration",
+  "uuid": "default",
+  "_last_modified": "1591177617689593",
+  "email_configuration": {
+    "disable_tls": false,
+    "from_email": "toto@avicontroller.net",
+    "mail_server_port": 25,
+    "smtp_type": "SMTP_LOCAL_HOST",
+    "mail_server_name": "localhost"
+  },
+  "global_tenant_config": {
+    "se_in_provider_context": true,
+    "tenant_access_to_provider_se": true,
+    "tenant_vrf": false
+  },
+  "welcome_workflow_complete": true,
+  "secure_channel_configuration": {
+    "sslkeyandcertificate_refs": [
+      "https://192.168.36.137/api/sslkeyandcertificate/sslkeyandcertificate-05b37345-7989-4cb5-b7ae-cc6ae3c57968"
+    ]
+  },
+  "dns_configuration": {
+    "search_domain": "",
+    "server_list": [
+      {
+        "type": "V4",
+        "addr": "4.4.4.4"
+      }
+    ]
+  },
+  "ssh_hmacs": [
+    "hmac-sha2-512-etm@openssh.com",
+    "hmac-sha2-256-etm@openssh.com",
+    "umac-128-etm@openssh.com",
+    "hmac-sha2-512"
+  ],
+  "docker_mode": true,
+  "portal_configuration": {
+    "password_strength_check": true,
+    "use_uuid_from_input": false,
+    "redirect_to_https": true,
+    "https_port": 443,
+    "sslkeyandcertificate_refs": [
+      "https://192.168.36.137/api/sslkeyandcertificate/sslkeyandcertificate-c4708f97-6f95-497d-884a-6608f5ab5b54",
+      "https://192.168.36.137/api/sslkeyandcertificate/sslkeyandcertificate-d5e5640e-23f9-4549-9450-2e664d30b397"
+    ],
+    "enable_clickjacking_protection": true,
+    "enable_https": true,
+    "disable_remote_cli_shell": false,
+    "http_port": 80,
+    "disable_swagger": false,
+    "enable_http": true,
+    "api_force_timeout": 24,
+    "allow_basic_authentication": false,
+    "sslprofile_ref": "https://192.168.36.137/api/sslprofile/sslprofile-a199ca79-d076-4d30-81d5-8b6d3eb252ad"
+  },
+  "ntp_configuration": {
+    "ntp_servers": [
+      {
+        "server": {
+          "type": "DNS",
+          "addr": "0.us.pool.ntp.org"
+        }
+      },
+      {
+        "server": {
+          "type": "DNS",
+          "addr": "1.us.pool.ntp.org"
+        }
+      },
+      {
+        "server": {
+          "type": "DNS",
+          "addr": "2.us.pool.ntp.org"
+        }
+      },
+      {
+        "server": {
+          "type": "DNS",
+          "addr": "3.us.pool.ntp.org"
+        }
+      }
+    ]
+  },
+  "ssh_ciphers": [
+    "aes128-ctr",
+    "aes256-ctr",
+    "arcfour256",
+    "arcfour128"
+  ],
+  "default_license_tier": "ENTERPRISE_18"
+}
