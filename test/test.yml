@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars_files:
+    - "../vars/params.yml"
+
+  vars:
+    my_pass: []
+
+  roles:
+    - role: "avinetworks.avisdk"
+
+  tasks:
+
+    - set_fact:
+        my_pass: "{{ my_pass  +  [ lookup('password', '/dev/null length=4 chars==letters') + '_' + lookup('password', '/dev/null length=4 chars==letters') | upper ] }}"
+      loop: "{{ user }}"
+      loop_control:
+        label: "Configuring {{ item.name }}"
+      when: user is defined
+
+    - name: give users access to multiple databases
+      debug:
+        msg: "{{ item }}"
+      loop: "{{ my_pass }}"

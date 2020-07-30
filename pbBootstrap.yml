@@ -7,6 +7,9 @@
     - "vars/params.yml"
     - "vars/aviVersion.yml"
 
+  vars:
+    my_pass: []
+
   roles:
     - role: "avinetworks.avisdk"
 
@@ -46,7 +49,7 @@
       tags:
         - debug
 
-    - name: Update user password
+    - name: Update user admin password
       avi_useraccount:
         controller: "{{ avi_credentials.controller }}"
         username: "{{ avi_credentials.username }}"
@@ -57,11 +60,52 @@
       tags:
         - password
 
-    - name: Display Post Message Installation
-      debug:
-        msg:
-          - "The Avi Controller is available at https://{{ avi_credentials.controller }}"
-          - "Username: admin"
-          - "Password: {{ avi_credentials.password }}"
+
+    - set_fact:
+        my_pass: "{{ my_pass  +  [ lookup('password', '/dev/null length=4 chars==letters') + '_' + lookup('password', '/dev/null length=4 chars==letters') | upper ] }}"
+      loop: "{{ user }}"
+      loop_control:
+        label: "Configuring {{ item.name }}"
+      when: user is defined
+
+
+    - debug:
+        msg: "{{ item.0.name }}-{{ item.1 }}"
+      loop: "{{ user|zip(my_pass)|list }}"
+      when: my_pass is defined
+
+    - name: user creation
+      avi_user:
+        avi_credentials: "{{ avi_credentials }}"
+        name: "{{ item.0.name }}"
+        obj_username: "{{ item.0.name }}"
+        obj_password: "{{ item.1 }}"
+        access: "{{ item.0.access }}"
+        user_profile_ref: "{{ item.0.user_profile_ref }}"
+        is_active: "{{ item.0.is_active }}"
+        is_superuser: "{{ item.0.is_superuser }}"
+        default_tenant_ref: "{{ item.0.default_tenant_ref }}"
+      loop: "{{ user|zip(my_pass)|list }}"
+      loop_control:
+        label: "Configuring {{ item.0.name }}"
+      when: user is defined
+
+    - set_fact:
+        avi_credentials: >
+                          {'api_version': "{{ api_version }}",
+                           'controller': "{{ outputRaw | json_query('avi_credentials.controller') }}",
+                           'password': "{{ my_pass.0 }}",
+                           'username': "{{ user.0.name }}"}
+        delegate_to: 127.0.0.1
+        run_once: true
       tags:
         - debug
+
+    # - name: Display Post Message Installation
+    #   debug:
+    #     msg:
+    #       - "The Avi Controller is available at https://{{ avi_credentials.controller }}"
+    #       - "Username: admin"
+    #       - "Password: {{ avi_credentials.password }}"
+    #   tags:
+    #     - debug
