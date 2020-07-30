@@ -98,9 +98,10 @@ api_version: 18.2.8
 1. Wait for the Avi portal to be up
 2. Generate variable to feed the python SDK
 3. Update the password
-4. Create a security passphrase for the backup
-5. Configure glocal config.
-6. export the credentials to an external file for further configuration
+4. Create accounts with aito-generated password for automation accounts
+5. Create a security passphrase for the backup
+6. Configure glocal config.
+7. export the credentials to an external file for further usage
 
 
 ## Run the playbook:
