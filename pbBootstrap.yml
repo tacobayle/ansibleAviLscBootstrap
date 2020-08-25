@@ -16,7 +16,6 @@
   tasks:
 
     - name: Register JSON variables for credentials and cluster
-      #command: python3 ~/ansible/python/generateJson.py ~/ansible/hosts "{{ avi.controller.password }}" "{{ avi.controller.version }}"
       command: python3 python/generateJson.py hosts "{{ avi.password }}"
       ignore_errors: no
       register: outputJson
@@ -101,11 +100,17 @@
       tags:
         - debug
 
-    # - name: Display Post Message Installation
-    #   debug:
-    #     msg:
-    #       - "The Avi Controller is available at https://{{ avi_credentials.controller }}"
-    #       - "Username: admin"
-    #       - "Password: {{ avi_credentials.password }}"
-    #   tags:
-    #     - debug
+    - name: Debug
+      debug:
+        msg: "{{ avi_credentials }}"
+      tags:
+        - debug
+
+    - name: Create a json file with credentials for each new users
+      copy:
+        content: "{\"avi_credentials\": {\"api_version\": \"{{ avi_credentials.api_version }}\", \"controller\": \"{{ avi_credentials.controller }}\", \"password\": \"{{ item.1 }}\", \"username\": \"{{ item.0.name }}\"} }"
+        dest: "{{ item.0.credsJsonFile }}"
+      loop: "{{ user|zip(my_pass)|list }}"
+      when: item.0.credsJsonFile is defined
+      delegate_to: 127.0.0.1
+      ignore_errors: yes
