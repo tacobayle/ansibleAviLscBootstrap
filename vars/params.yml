@@ -1,5 +1,5 @@
-avi:
-  password: Avi_2020
+# avi:
+#   password: Avi_2020
 
 user:
   - name: ansible
@@ -12,7 +12,7 @@ user:
         tenant_ref: "/api/tenant/admin#admin"
       - all_tenants: true
         role_ref: "/api/role?name=System-Admin"
-    credsJsonFile: ../aviLscCloud/vars/creds.json
+    credsJsonFile: ~/creds/aviLsc/ansible.json
   - name: terraform
     is_superuser: true
     user_profile_ref: "/api/useraccountprofile?name=Default-User-Account-Profile"
@@ -23,7 +23,7 @@ user:
         tenant_ref: "/api/tenant/admin#admin"
       - all_tenants: true
         role_ref: "/api/role?name=System-Admin"
-    credsJsonFile: ../../terraform/aviVs/creds.json
+    credsJsonFile: ~/creds/aviLsc/terraform.json
   - name: python
     is_superuser: true
     user_profile_ref: "/api/useraccountprofile?name=Default-User-Account-Profile"
@@ -34,7 +34,7 @@ user:
         tenant_ref: "/api/tenant/admin#admin"
       - all_tenants: true
         role_ref: "/api/role?name=System-Admin"
-    credsJsonFile: ../../python/aviVs/creds.json
+    credsJsonFile: ~/creds/aviLsc/python.json
   - name: vrovra
     is_superuser: true
     user_profile_ref: "/api/useraccountprofile?name=Default-User-Account-Profile"
@@ -45,6 +45,7 @@ user:
         tenant_ref: "/api/tenant/admin#admin"
       - all_tenants: true
         role_ref: "/api/role?name=System-Admin"
+    credsJsonFile: ~/creds/aviLsc/vrovra.json
 
-credsJsonFile:
-  - ../aviLscCloud/vars/creds.json
+# credsJsonFile:
+#   - ../aviLscCloud/vars/creds.json

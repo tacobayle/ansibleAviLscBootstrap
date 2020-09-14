@@ -16,7 +16,7 @@
   tasks:
 
     - name: Register JSON variables for credentials and cluster
-      command: python3 python/generateJson.py hosts "{{ avi.password }}"
+      command: python3 python/generateJson.py hosts "{{ lookup('env','TF_VAR_avi_password') }}"
       ignore_errors: no
       register: outputJson
       delegate_to: 127.0.0.1

@@ -49,7 +49,6 @@ all:
       hosts:
         192.168.142.135:
 
-
   vars:
     ansible_user: avi
     ansible_ssh_private_key_file: "/home/avi/.ssh/id_rsa.local"
@@ -66,13 +65,9 @@ api_version: 20.1.1
 ## Use the ansible playbook to
 1. Wait for the Avi portal to be up
 2. Generate variable to feed the python SDK
-3. Update the password
+3. Update the password (based on the env variable TF_VAR_avi_password)
 4. Create accounts with auto-generated password for automation accounts
-5. export the credentials to an external file for further usage
-
+5. export the credentials to external files for further usage
 
 ## Run the playbook:
-ansible-playbook -i hosts main.yml
-
-## Improvement:
-Handle cluster configuration
+ansible-playbook -i hosts local.yml
